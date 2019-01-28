@@ -106,5 +106,4 @@ venv.bak/
 .mypy_cache/
 
 .idea/
-Runner.py
-model/Calculation.py
+resources/dataset

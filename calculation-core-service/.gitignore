@@ -107,3 +107,7 @@ venv.bak/
 
 .idea/
 resources/dataset
+resources/archives
+resources/cropped-dataset
+resources/training/checkpoint
+resources/imdb.mat

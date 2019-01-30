@@ -47,6 +47,7 @@ class FaceDetector:
 
         # drawing a rectangle around the detected face in the original image
         FaceUtils.draw_rectangle(largest_face_recognized, original)
+        original = FaceUtils.bgr_to_rgb(original)
 
         # crop the detected face
         cropped = FaceUtils.crop_by(largest_face_recognized, cropped)
@@ -76,4 +77,4 @@ def test_detector(path):
     print("Fails=" + str(fails) + ", success=" + str(success))
 
 
-test_detector('../../resources/dataset/')
+# test_detector('../../resources/dataset/')

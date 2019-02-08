@@ -19,7 +19,7 @@ class AgeAndGenderEvaluator:
         self.load_saved_weights()
 
     def load_saved_weights(self):
-        if not os.path.exists(self.age_saved_weights_path) or os.path.exists(self.gender_saved_weights_path):
+        if not os.path.exists(self.age_saved_weights_path) or not os.path.exists(self.gender_saved_weights_path):
             Training.setup()
 
         self.age_model = CnnNetwork((128, 128, 3)).get_model('age')
@@ -27,7 +27,7 @@ class AgeAndGenderEvaluator:
 
         try:
             self.age_model.load_weights(self.age_saved_weights_path)
-            self.gender_model.load_weights(self.age_saved_weights_path)
+            self.gender_model.load_weights(self.gender_saved_weights_path)
         except Exception:
             raise WeightsLoadingException()
 
@@ -44,7 +44,7 @@ class AgeAndGenderEvaluator:
 
         face = FaceUtils.load_face(result[Constants.CROPPED_IMAGE_LABEL])
         age_result = self.age_model.predict(face)
-        gender_result = self.gender_model(face)
+        gender_result = self.gender_model.predict(face)
 
         if age_result is None or gender_result is None:
             raise CalculationFailedException()

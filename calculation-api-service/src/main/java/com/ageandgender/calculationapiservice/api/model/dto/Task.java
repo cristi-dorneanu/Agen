@@ -11,14 +11,14 @@ public class Task implements Serializable {
 
     private CalculationType calculationType;
 
-    private byte[] image;
+    private String image;
 
     public Task() {
     }
 
     public Task(@JsonProperty("calculationId") Long calculationId,
                 @JsonProperty("calculationId") CalculationType calculationType,
-                @JsonProperty("calculationId") byte[] image) {
+                @JsonProperty("calculationId") String image) {
         this.calculationId = calculationId;
         this.calculationType = calculationType;
         this.image = image;
@@ -40,11 +40,11 @@ public class Task implements Serializable {
         this.calculationType = calculationType;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }

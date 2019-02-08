@@ -1,0 +1,52 @@
+<main>
+  <div class="container" style="height: 1000px;">
+    <div class="row" style="height: 20%;">
+
+      <div class="col-md-12">
+        <div class="jumbotron jumbotron-fluid" style="height: 90%;">
+          <div class="container">
+            <h1 class="display-4">Fluid jumbotron</h1>
+            <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="height: 10%;">
+      <div class="col-md-6">
+        <app-calculation-input #input></app-calculation-input>
+      </div>
+
+      <div class="col-md-6">
+        <mdb-card>
+          <mdb-card-body>
+            <span>Calculation Output</span>
+            <div class="row" style="height: 50%;">
+              <span *ngIf="result && result.calculation && result.calculation.estimatedAge">sad</span>
+            </div>
+            <div class="row" style="height: 50%;">
+              <span *ngIf="result && result.calculation && result.calculation.estimatedGender">sad</span>
+            </div>
+          </mdb-card-body>
+        </mdb-card>
+
+      </div>
+    </div>
+
+    <div *ngIf="input.filePath" class="row" style="height: 50%;">
+      <div class="col-md-6">
+        <img src="{{input.filePath}}" class="img-fluid" alt="Input Image">
+      </div>
+
+      <div class="col-md-6">
+       <app-calculation-result [events]="eventsCalculation.asObservable()" #result></app-calculation-result>
+      </div>
+    </div>
+
+    <div class="row" style="height: 10%;">
+      <div class="col-md-12">
+        <button class="calculate-button" mdbBtn type="button" color="primary" block="true" mdbWavesEffect (click)="addCalculation()">Predict Age And Gender</button>
+      </div>
+    </div>
+  </div>
+</main>

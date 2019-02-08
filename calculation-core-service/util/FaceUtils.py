@@ -1,5 +1,6 @@
 import cv2
 import util.Constant as Constant
+import numpy as np
 
 
 #from book
@@ -52,4 +53,42 @@ def crop_by(size, image):
 
 
 def resize(image):
-    return cv2.resize(image, Constant.OUTPUT_IMAGE_SIZE, Constant.IMAGE_RESIZE_INTERPOLATION)
+    return cv2.resize(image, Constant.IMAGE_SIZE, Constant.IMAGE_RESIZE_INTERPOLATION)
+
+
+def get_gender_from_result_array(result_array):
+    result = get_index_of_one(result_array)
+
+    if result is None:
+        return None
+
+    return "FEMALE" if result == 0 else "MALE"
+
+
+def get_age_from_result(result_array):
+    age_classes = [1, 10, 15, 21, 28, 35, 42, 50, 65, 80, 100]
+    result = get_index_of_one(result_array)
+
+    if result is None:
+        return None
+
+    return age_classes[result]
+
+
+def get_index_of_one(array):
+    max_value = 0
+    max_pos = 0
+
+    for counter, value in np.ndenumerate(array[0]):
+        if value > max_value:
+            max_value = value
+            max_pos = counter[0]
+
+    return max_pos
+
+
+def load_face(image):
+    face = np.empty((1, 128, 128, 3))
+    face[0, :, :, :] = image
+
+    return face

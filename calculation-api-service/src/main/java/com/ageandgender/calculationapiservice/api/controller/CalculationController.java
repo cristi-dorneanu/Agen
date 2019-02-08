@@ -4,9 +4,8 @@ import com.ageandgender.calculationapiservice.api.model.entities.Calculation;
 import com.ageandgender.calculationapiservice.api.service.CalculateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.ws.rs.core.Response;
 
 @RefreshScope
 @RestController
@@ -16,14 +15,14 @@ public class CalculationController {
     private CalculateService calculateService;
 
     @PostMapping("/calculate")
-    public Response calculate(@RequestBody Calculation calculation) {
-        return Response.ok(calculateService.calculate(calculation)).build();
+    public ResponseEntity calculate(@RequestBody Calculation calculation) {
+        return ResponseEntity.ok(calculateService.calculate(calculation));
     }
 
     @GetMapping("/calculate/{id}")
-    public Response findCalculation(@PathVariable Long id) {
+    public ResponseEntity findCalculation(@PathVariable Long id) {
         Calculation calculation = calculateService.retrieveCalculation(id).orElse(null);
-        return Response.ok(calculation).build();
+        return ResponseEntity.ok(calculation == null ? new Calculation() : calculation);
     }
 
 }

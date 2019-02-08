@@ -1,0 +1,7 @@
+<div class="input-default-wrapper mt-3" style="height: 70%">
+    <input type="file" id="imageFile" class="input-default-js" (change)="onFileChange($event)">
+    <label class="label-for-default-js rounded-right mb-3" for="imageFile" style="height: 70%">
+      <span class="span-choose-file" id="filename">{{form.get('filename').value}}</span>
+      <div class="float-right span-browse mb-3 bg-primary text-white" style="text-align: center;">Browse</div>
+    </label>
+</div>

@@ -19,20 +19,24 @@ public class CalculationResult implements Serializable {
 
     private boolean isFace;
 
-    private byte[] image;
+    private String image;
+
+    private String errorMessage;
 
     public CalculationResult(@JsonProperty("calculationId") Long calculationId,
                              @JsonProperty("calculationStatus") CalculationStatus calculationStatus,
                              @JsonProperty("estimatedGender") Gender estimatedGender,
                              @JsonProperty("estimatedAge") Integer estimatedAge,
                              @JsonProperty("isFace") boolean isFace,
-                             @JsonProperty("image") byte[] image) {
+                             @JsonProperty("image") String image,
+                             @JsonProperty("errorMessage") String errorMessage) {
         this.calculationId = calculationId;
         this.calculationStatus = calculationStatus;
         this.estimatedGender = estimatedGender;
         this.estimatedAge = estimatedAge;
         this.isFace = isFace;
         this.image = image;
+        this.errorMessage = errorMessage;
     }
 
     public Long getCalculationId() {
@@ -75,12 +79,20 @@ public class CalculationResult implements Serializable {
         isFace = face;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     @Override
@@ -91,7 +103,8 @@ public class CalculationResult implements Serializable {
                 ", estimatedGender=" + estimatedGender +
                 ", estimatedAge=" + estimatedAge +
                 ", isFace=" + isFace +
-                ", image=" + Arrays.toString(image) +
+                ", image=" + image +
+                ", errorMessage='" + errorMessage + '\'' +
                 '}';
     }
 }

@@ -30,12 +30,23 @@ public class CalculateService {
     }
 
     public void updateCalculationResult(CalculationResult calculationResult) {
-        Calculation calculation = calculationRepository.findById(calculationResult.getCalculationId()).orElseThrow(() -> new CalculationNotFoundException(calculationResult.getCalculationId()));
+        Calculation calculation = new Calculation();
+
+        try {
+            calculation = calculationRepository.findById(calculationResult.getCalculationId()).orElseThrow(() -> new CalculationNotFoundException(calculationResult.getCalculationId()));
+        } catch (Exception e) {
+
+        }
 
         calculation.setStatus(calculationResult.getCalculationStatus());
         calculation.setEstimatedAge(calculationResult.getEstimatedAge());
         calculation.setEstimatedGender(calculationResult.getEstimatedGender());
         calculation.setFace(calculationResult.isFace());
-        calculation.setImage(calculationResult.getImage());
+
+        if(calculationResult.getImage() != null && !calculationResult.getImage().isEmpty()) {
+            calculation.setImage(calculationResult.getImage());
+        }
+
+        calculationRepository.save(calculation);
     }
 }

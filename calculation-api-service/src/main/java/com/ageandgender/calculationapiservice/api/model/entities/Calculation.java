@@ -3,8 +3,6 @@ package com.ageandgender.calculationapiservice.api.model.entities;
 import com.ageandgender.calculationapiservice.api.model.enums.CalculationStatus;
 import com.ageandgender.calculationapiservice.api.model.enums.CalculationType;
 import com.ageandgender.calculationapiservice.api.model.enums.Gender;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 
@@ -28,8 +26,8 @@ public class Calculation {
     @Column(name = "is_face")
     private boolean isFace;
 
-    //fetch lazy
-    private byte[] image;
+    @Lob
+    private String image;
 
     public Long getId() {
         return id;
@@ -79,11 +77,11 @@ public class Calculation {
         isFace = face;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }

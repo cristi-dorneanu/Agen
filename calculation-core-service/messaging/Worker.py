@@ -2,6 +2,8 @@ from messaging.Config import RabbitMqConnection
 from messaging.TaskProducer import CalculationResultPublisher
 from model.Calculation import CalculationResult
 import json
+from core.keras.Evaluator import AgeAndGenderEvaluator
+import util.FileUtils as FileUtils
 
 
 class CalculationWorker(RabbitMqConnection):
@@ -21,8 +23,19 @@ class CalculationWorker(RabbitMqConnection):
         task = json.loads(body)
 
         calculation_result = CalculationResult()
-        calculation_result.calculationId = task['calculationId']
-        calculation_result.estimatedAge = 15
+
+        try:
+            calculation_result.calculationId = task['calculationId']
+            calculation_result.image = task['image']
+            image_path = FileUtils.write_calculation_file_to_disk(str(calculation_result.calculationId), calculation_result.image)
+
+            evaluator = AgeAndGenderEvaluator()
+            evaluator.calculate(image_path, calculation_result)
+
+            calculation_result.calculationStatus = 'FINISHED'
+        except Exception as error:
+            calculation_result.error_message = str(error)
+            calculation_result.calculationStatus = 'ERROR'
 
         ch.basic_ack(delivery_tag=method.delivery_tag)
         self.calculation_result_publish_queue.publish_calculation_result(calculation_result)

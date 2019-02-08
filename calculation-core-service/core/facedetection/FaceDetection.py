@@ -19,11 +19,12 @@ class FaceDetector:
 
     def detect(self, image_path):
         image = cv2.imread(image_path)
-        original = image.copy()
-        cropped = image.copy()
 
         if image is None:
             return None
+
+        original = image.copy()
+        cropped = image.copy()
 
         # convert image to grayscale if not already
         if not FaceUtils.is_gray_image(image):
@@ -47,7 +48,6 @@ class FaceDetector:
 
         # drawing a rectangle around the detected face in the original image
         FaceUtils.draw_rectangle(largest_face_recognized, original)
-        original = FaceUtils.bgr_to_rgb(original)
 
         # crop the detected face
         cropped = FaceUtils.crop_by(largest_face_recognized, cropped)

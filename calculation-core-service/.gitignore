@@ -111,3 +111,7 @@ resources/archives
 resources/cropped-dataset
 resources/training/checkpoint
 resources/imdb.mat
+resources/imdb_meta.tar
+resources/evaluate
+resources/wiki.mat
+resources/wiki.tar.gz

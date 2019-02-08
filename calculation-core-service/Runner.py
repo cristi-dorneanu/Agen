@@ -1,9 +1,16 @@
 from messaging.Worker import CalculationWorker
+import core.keras.Training as tr
 
 
 def run_app():
     worker = CalculationWorker()
 
-    worker.listen_for_messages()
+    while True:
+        try:
+            worker.listen_for_messages()
+        except Exception as error:
+            pass
 
-run_app()
+
+tr.setup()
+#run_app()

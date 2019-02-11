@@ -53,7 +53,7 @@ class FaceDetector:
         cropped = FaceUtils.crop_by(largest_face_recognized, cropped)
         cropped = FaceUtils.resize(cropped)
 
-        return {Constant.ORIGINAL_IMAGE_LABEL: original, Constant.CROPPED_IMAGE_LABEL: cropped}
+        return {Constant.ORIGINAL_IMAGE_LABEL: original, Constant.CROPPED_IMAGE_LABEL: cropped, "faces_number": len(faces)}
 
 
 def test_detector(path):

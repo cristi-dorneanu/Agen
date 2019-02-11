@@ -12,5 +12,5 @@ def run_app():
             pass
 
 
-#tr.setup()
-run_app()
+tr.setup()
+#run_app()

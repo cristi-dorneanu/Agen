@@ -57,10 +57,10 @@ def setup():
     model.save_weights(Constants.AGE_WEIGHTS_PATH, overwrite=True)
 
     # train the network
-    model = train_network(input_data, 'gender')
+    #model = train_network(input_data, 'gender')
 
     # save the weights
-    model.save_weights(Constants.GENDER_WEIGHTS_PATH, overwrite=True)
+    #model.save_weights(Constants.GENDER_WEIGHTS_PATH, overwrite=True)
 
 
 def extract_all_archives_dataset(archives_path, output_path):
@@ -95,6 +95,9 @@ def extract_face_from_images(dataset_path, output_path):
         filename = file.split('/')[-1]
 
         if result is None or result['cropped'] is None:
+            continue
+
+        if result['faces_number'] is None or result['faces_number'] != 1:
             continue
 
         FileUtils.write_image_to_disk(output_path, filename, result['cropped'])

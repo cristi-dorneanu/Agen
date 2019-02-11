@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    config:
+      uri: http://config:8888
+  application:
+    name: calculation-api-service
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:9091/eureka
+

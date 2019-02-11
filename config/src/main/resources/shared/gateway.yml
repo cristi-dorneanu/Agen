@@ -1,0 +1,5 @@
+zuul:
+  routes:
+    api:
+      path: /api/**
+      serviceId: calculation-api-service

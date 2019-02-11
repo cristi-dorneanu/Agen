@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    config:
+      uri: http://config:8888
+  application:
+    name: gateway
+
+server:
+  port: 9092
+
+zuul:
+  prefix: /agen
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:9091/eureka

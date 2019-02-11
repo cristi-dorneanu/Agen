@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.ageandgender</groupId>
 	<artifactId>calculation-api-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>calculation-api-service</name>
 	<description>Demo project for Spring Boot</description>
 
@@ -50,6 +50,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.7</version>
 		</dependency>
 	</dependencies>
 

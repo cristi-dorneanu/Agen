@@ -1,0 +1,55 @@
+version: '2.1'
+services:
+    rabbitmq:
+        image: 'rabbitmq:3-management'
+        restart: always
+        networks:
+            - emp-network
+        ports:
+            - '15672:15672'
+    config:
+        image: cristidorneanu/agen-config:latest
+        restart: always
+        networks:
+            - emp-network
+        ports:
+            - '8888:8888'
+    eureka-server:
+        image: cristidorneanu/agen-eureka-server:latest
+        restart: always
+        networks:
+            - emp-network
+        ports:
+            - '9091:9091'
+    gateway:
+        links:
+            - config:config
+            - eureka-server:eureka-server
+        depends_on:
+            - config
+            - eureka-server
+        image: cristidorneanu/agen-gateway:latest
+        restart: always
+        networks:
+            - emp-network
+        ports:
+            - '9092:9092'
+        command: ["./wait-for-it.sh", "config:8888", "eureka-server:9091"]
+    calculation-api-service:
+        links:
+            - rabbitmq
+            - config
+            - eureka-server
+        depends_on:
+            - rabbitmq
+            - config
+            - eureka-server
+        image: cristidorneanu/agen-calculation-api-service:latest
+        restart: always
+        networks:
+            - emp-network
+        ports:
+            - '8080:8080'
+networks:
+    emp-network:
+        driver: bridge

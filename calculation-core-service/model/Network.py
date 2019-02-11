@@ -31,11 +31,11 @@ class CnnNetwork:
             conv_layer)
 
         conv_layer = MaxPooling2D(pool_size, pool_stride_size)(conv_layer)
-        conv_layer = BatchNormalization()(conv_layer)
+        #conv_layer = BatchNormalization()(conv_layer)
 
-        pool = AveragePooling2D(pool_size=(4, 4), strides=(1, 1), padding="same")(conv_layer)
+        #pool = AveragePooling2D(pool_size=(4, 4), strides=(1, 1), padding="same")(conv_layer)
 
-        flatten = Flatten()(pool)
+        flatten = Flatten()(conv_layer)
 
         output_layer = None
 

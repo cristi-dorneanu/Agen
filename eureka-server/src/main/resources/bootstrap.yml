@@ -1,4 +1,7 @@
 spring:
+  cloud:
+    config:
+      uri: http://config:8888
   profiles:
     active: native
   application:

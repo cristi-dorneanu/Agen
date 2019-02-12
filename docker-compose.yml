@@ -22,6 +22,7 @@ services:
         ports:
             - '9091:9091'
     gateway:
+        entrypoint: /app/GatewayStart.sh
         links:
             - config:config
             - eureka-server:eureka-server
@@ -36,6 +37,7 @@ services:
             - '9092:9092'
         command: ["./wait-for-it.sh", "config:8888", "eureka-server:9091"]
     calculation-api-service:
+        entrypoint: /app/CalculationApiServiceStart.sh
         links:
             - rabbitmq
             - config
@@ -50,6 +52,18 @@ services:
             - emp-network
         ports:
             - '8080:8080'
+    calculation-core-service:
+        entrypoint: /app/CalculationCoreServiceStart.sh
+        links:
+            - rabbitmq
+        depends_on:
+            - rabbitmq
+        image: cristidorneanu/agen-calculation-core-service:latest
+        restart: always
+        networks:
+            - emp-network
+        ports:
+            - '8081:8081'
 networks:
     emp-network:
         driver: bridge

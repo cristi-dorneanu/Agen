@@ -42,6 +42,7 @@ public class CalculateService {
         calculation.setEstimatedAge(calculationResult.getEstimatedAge());
         calculation.setEstimatedGender(calculationResult.getEstimatedGender());
         calculation.setFace(calculationResult.isFace());
+        calculation.setErrorMessage(calculationResult.getErrorMessage());
 
         if(calculationResult.getImage() != null && !calculationResult.getImage().isEmpty()) {
             calculation.setImage(calculationResult.getImage());

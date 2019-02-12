@@ -22,8 +22,8 @@ class AgeAndGenderEvaluator:
         if not os.path.exists(self.age_saved_weights_path) or not os.path.exists(self.gender_saved_weights_path):
             Training.setup()
 
-        self.age_model = CnnNetwork((128, 128, 3)).get_model('age')
-        self.gender_model = CnnNetwork((128, 128, 3)).get_model('gender')
+        self.age_model = CnnNetwork((128, 128, 3)).get_age_model()
+        self.gender_model = CnnNetwork((128, 128, 3)).get_gender_model()
 
         try:
             self.age_model.load_weights(self.age_saved_weights_path)

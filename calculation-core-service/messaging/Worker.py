@@ -14,7 +14,6 @@ class CalculationWorker(RabbitMqConnection):
 
         self.queue_name = 'calculate.tasks.queue'
 
-        #todo remove the delete when ready for prod
         self.channel.queue_delete(queue=self.queue_name)
         self.calculation_tasks_queue = self.channel.queue_declare(queue=self.queue_name, durable=True)
 
@@ -34,7 +33,8 @@ class CalculationWorker(RabbitMqConnection):
 
             calculation_result.calculationStatus = 'FINISHED'
         except Exception as error:
-            calculation_result.error_message = str(error)
+            print(error)
+            calculation_result.errorMessage = str(error)
             calculation_result.calculationStatus = 'ERROR'
 
         ch.basic_ack(delivery_tag=method.delivery_tag)

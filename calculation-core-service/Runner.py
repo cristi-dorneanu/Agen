@@ -9,8 +9,8 @@ def run_app():
         try:
             worker.listen_for_messages()
         except Exception as error:
-            pass
+            print(error)
 
 
-tr.setup()
-#run_app()
+#tr.setup()
+run_app()

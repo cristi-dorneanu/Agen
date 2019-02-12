@@ -6,5 +6,6 @@ export class Calculation {
   estimatedAge: number;
   isFace: boolean;
   image: string;
+  errorMessage: string;
   accessTokens: any[];
 }

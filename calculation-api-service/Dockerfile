@@ -2,6 +2,11 @@ FROM openjdk:10
 
 ADD ./target/calculation-api-service-1.0.0-SNAPSHOT.jar /app/
 
-CMD ["java", "-Xmx200m", "-jar", "/app/calculation-api-service-1.0.0-SNAPSHOT.jar"]
+ADD ./CalculationApiServiceStart.sh /app
 
-EXPOSE 8888
+RUN apt-get update && \
+ apt-get install -y netcat;
+
+RUN chmod 755 /app/CalculationApiServiceStart.sh
+
+EXPOSE 8080

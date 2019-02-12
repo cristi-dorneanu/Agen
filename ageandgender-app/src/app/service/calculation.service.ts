@@ -6,7 +6,7 @@ import {catchError, concatMap, filter, map, mergeMap, retryWhen, take} from 'rxj
 
 @Injectable()
 export class CalculationService {
-  private _calculationUrl = 'http://localhost:8080/calculate/';
+  private _calculationUrl = 'http://localhost:9092/agen/api/calculate/';
 
 
   constructor(private _http: HttpClient) {

@@ -2,12 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-benchmarks',
-  template: `
-    <p>
-      benchmarks works!
-    </p>
-  `,
-  styles: []
+  templateUrl: 'benchmarks.component.html',
+  styleUrls: ['benchmarks.component.scss']
 })
 export class BenchmarksComponent implements OnInit {
 

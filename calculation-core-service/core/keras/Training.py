@@ -51,13 +51,13 @@ def setup():
     input_data = load_input_data(Constants.DATASET_CROPPED_PATH, Constants.METADATA_PATH)
 
     # train the network
-    model = train_network(input_data, 'age')
+    model = train_age_network(input_data)
 
     # save the weights
     model.save_weights(Constants.AGE_WEIGHTS_PATH, overwrite=True)
 
     # train the network
-    #model = train_network(input_data, 'gender')
+    #model = train_gender_network(input_data)
 
     # save the weights
     #model.save_weights(Constants.GENDER_WEIGHTS_PATH, overwrite=True)
@@ -184,42 +184,26 @@ def load_metadata(path, metadata):
     return filename_to_metadata
 
 
-def train_network(input_data, output_type):
+def train_age_network(input_data):
     training_images, label_age, label_gender = input_data
 
-    label_gender = np_utils.to_categorical(label_gender, 2)
     label_age = np_utils.to_categorical(label_age, 11)
 
     network = CnnNetwork((128, 128, 3))
-    model = network.get_model(output_type)
+    model = network.get_age_model()
 
-    sgd = SGD(lr=0.1, decay=0.005, momentum=0.9)
+    sgd = SGD(lr=0.01, decay=0.005, momentum=0.9)
     model.compile(optimizer=sgd, loss=["categorical_crossentropy"], metrics=['accuracy'])
 
     model.count_params()
     model.summary()
 
-    output_data = None
-    output_model_path = Constants.CNN_MODEL_PATH
-    checkpoint_path = Constants.PLOT_PATH
-    model_plot_path = Constants.PLOT_PATH
-    acc_plot = Constants.PLOT_PATH
-    loss_plot = Constants.PLOT_PATH
-
-    if output_type == 'age':
-        output_data = label_age
-        output_model_path += 'CnnModelAge.json'
-        checkpoint_path = Constants.CHECKPOINTS_PATH_AGE
-        model_plot_path += 'AgeModelPlot.png'
-        acc_plot += 'AgeAccPlot.png'
-        loss_plot += 'AgeLossPlot.png'
-    elif output_type == 'gender':
-        output_data = label_gender
-        output_model_path += 'CnnModelGender.json'
-        checkpoint_path = Constants.CHECKPOINTS_PATH_GENDER
-        model_plot_path += 'GenderModelPlot.png'
-        acc_plot += 'GenderAccPlot.png'
-        loss_plot += 'GenderLossPlot.png'
+    output_data = label_age
+    output_model_path = Constants.CNN_MODEL_PATH + 'CnnModelAge.json'
+    checkpoint_path = Constants.CHECKPOINTS_PATH_AGE
+    model_plot_path = Constants.PLOT_PATH + 'AgeModelPlot.png'
+    acc_plot = Constants.PLOT_PATH + 'AgeAccPlot.png'
+    loss_plot = Constants.PLOT_PATH + 'AgeLossPlot.png'
 
     if not FileUtils.file_exists(Constants.PLOT_PATH):
         FileUtils.create_dir(Constants.PLOT_PATH)
@@ -246,6 +230,59 @@ def train_network(input_data, output_type):
     print("Starting training")
 
     history = model.fit(training_images, output_data, batch_size=32, epochs=10, callbacks=callbacks, validation_split=0.1)
+
+    save_plot_from_history(history, acc_plot, loss_plot)
+
+    return model
+
+
+def train_gender_network(input_data):
+    training_images, label_age, label_gender = input_data
+
+    label_gender = np_utils.to_categorical(label_gender, 2)
+
+    network = CnnNetwork((128, 128, 3))
+    model = network.get_gender_model()
+
+    sgd = SGD(lr=0.01, decay=0.005, momentum=0.9)
+    model.compile(optimizer=sgd, loss=["categorical_crossentropy"], metrics=['accuracy'])
+
+    model.count_params()
+    model.summary()
+
+    output_data = label_gender
+    output_model_path = Constants.CNN_MODEL_PATH + 'CnnModelGender.json'
+    checkpoint_path = Constants.CHECKPOINTS_PATH_GENDER
+    model_plot_path = Constants.PLOT_PATH + 'GenderModelPlot.png'
+    acc_plot = Constants.PLOT_PATH + 'GenderAccPlot.png'
+    loss_plot = Constants.PLOT_PATH + 'GenderLossPlot.png'
+
+    if not FileUtils.file_exists(Constants.PLOT_PATH):
+        FileUtils.create_dir(Constants.PLOT_PATH)
+
+    if not FileUtils.file_exists(Constants.CNN_MODEL_PATH):
+        FileUtils.create_dir(Constants.CNN_MODEL_PATH)
+
+    if not FileUtils.file_exists(checkpoint_path):
+        FileUtils.create_dir(checkpoint_path)
+
+    plot_model(model, to_file=model_plot_path)
+
+    with open(output_model_path, "w") as f:
+        f.write(model.to_json())
+
+    callbacks = [LearningRateScheduler(update_learning_rate, 1),
+                 ModelCheckpoint(checkpoint_path + "weights.{epoch:02d}-{val_loss:.2f}.hdf5",
+                                 monitor="val_loss",
+                                 verbose=1,
+                                 save_best_only=True,
+                                 mode="auto")
+                 ]
+
+    print("Starting training")
+
+    history = model.fit(training_images, output_data, batch_size=32, epochs=10, callbacks=callbacks,
+                        validation_split=0.1)
 
     save_plot_from_history(history, acc_plot, loss_plot)
 

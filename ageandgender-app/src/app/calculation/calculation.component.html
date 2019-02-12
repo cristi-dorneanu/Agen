@@ -1,31 +1,44 @@
 <main>
   <div class="container" style="height: 1000px;">
-    <div class="row" style="height: 20%;">
+    <div class="row" style="height: 25%;">
 
       <div class="col-md-12">
-        <div class="jumbotron jumbotron-fluid" style="height: 90%;">
+        <div class="jumbotron jumbotron-fluid" style="height: 70%;">
           <div class="container">
-            <h1 class="display-4">Fluid jumbotron</h1>
-            <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+            <h1 class="display-4">Agen and gender estimation</h1>
+            <p class="lead">Choose an image file from disk that contains at least a face. If multiple faces are
+              detected, only the closer/bigger one will be selected. The result will be an estimation of the gender
+              MALE/FEMALE and a classification of the age.</p>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="row" style="height: 10%;">
+    <div class="row" style="height: 12%;">
       <div class="col-md-6">
-        <app-calculation-input #input></app-calculation-input>
+        <div class="input-default-wrapper mt-3" style="height: 60%">
+          <input type="file" id="imageFile" class="input-default-js" (change)="onFileChange($event)">
+          <label class="label-for-default-js rounded-right mb-3" for="imageFile" style="height: 70%">
+            <span class="span-choose-file" id="filename">{{form.get('filename').value}}</span>
+            <div class="float-right span-browse mb-3 bg-primary text-white" style="text-align: center;">Browse</div>
+          </label>
+        </div>
       </div>
 
       <div class="col-md-6">
-        <mdb-card>
+        <mdb-card >
           <mdb-card-body>
-            <span>Calculation Output</span>
-            <div class="row" style="height: 50%;">
-              <span *ngIf="result && result.calculation && result.calculation.estimatedAge">sad</span>
+            <div class="row" style="height: 20%;">
+              <span>Calculation Output</span>
+            </div>
+            <div class="row" style="height: 20%;">
+              <span *ngIf="calculation && calculation.estimatedAge">Estimated Age: {{calculation.estimatedAge}}</span>
+            </div>
+            <div class="row" style="height: 20%;">
+              <span *ngIf="calculation && calculation.estimatedGender">Estimated Gender: {{calculation.estimatedGender}}</span>
             </div>
             <div class="row" style="height: 50%;">
-              <span *ngIf="result && result.calculation && result.calculation.estimatedGender">sad</span>
+              <span *ngIf="calculation && calculation.errorMessage">Error Message: {{calculation.errorMessage}}</span>
             </div>
           </mdb-card-body>
         </mdb-card>
@@ -33,19 +46,21 @@
       </div>
     </div>
 
-    <div *ngIf="input.filePath" class="row" style="height: 50%;">
+    <div *ngIf="filePath" class="row" style="height: 50%;">
       <div class="col-md-6">
-        <img src="{{input.filePath}}" class="img-fluid" alt="Input Image">
+        <img src="{{filePath}}" class="img-fluid" alt="Input Image">
       </div>
 
       <div class="col-md-6">
-       <app-calculation-result [events]="eventsCalculation.asObservable()" #result></app-calculation-result>
+        <img *ngIf="calculation.image" [src]="'data:image/jpeg;base64,'+calculation.image" class="img-fluid" alt="Output Image">
       </div>
     </div>
 
     <div class="row" style="height: 10%;">
       <div class="col-md-12">
-        <button class="calculate-button" mdbBtn type="button" color="primary" block="true" mdbWavesEffect (click)="addCalculation()">Predict Age And Gender</button>
+        <button class="calculate-button" mdbBtn type="button" color="primary" block="true" mdbWavesEffect
+                (click)="addCalculation()">Predict Age And Gender
+        </button>
       </div>
     </div>
   </div>

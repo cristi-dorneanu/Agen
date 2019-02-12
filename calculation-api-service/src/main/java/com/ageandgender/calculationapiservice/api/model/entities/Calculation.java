@@ -29,6 +29,8 @@ public class Calculation {
     @Lob
     private String image;
 
+    private String errorMessage;
+
     public Long getId() {
         return id;
     }
@@ -83,5 +85,13 @@ public class Calculation {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

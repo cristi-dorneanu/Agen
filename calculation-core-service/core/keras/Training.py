@@ -57,10 +57,10 @@ def setup():
     model.save_weights(Constants.AGE_WEIGHTS_PATH, overwrite=True)
 
     # train the network
-    #model = train_gender_network(input_data)
+    model = train_gender_network(input_data)
 
     # save the weights
-    #model.save_weights(Constants.GENDER_WEIGHTS_PATH, overwrite=True)
+    model.save_weights(Constants.GENDER_WEIGHTS_PATH, overwrite=True)
 
 
 def extract_all_archives_dataset(archives_path, output_path):
@@ -120,8 +120,8 @@ def load_input_data(dataset_cropped_path, metadata_path):
     label_age = []
     label_gender = []
 
-    original_age = []
-    original_gender = []
+    original_age = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    original_gender = [0, 0]
 
     for file in file_paths:
         filename = file.split('/')[-1]
@@ -140,13 +140,19 @@ def load_input_data(dataset_cropped_path, metadata_path):
         age = int(image_metadata['age'])
         gender = int(image_metadata['gender'])
 
-        original_age = age
-        original_gender = "FEMALE" if gender == 0 else "MALE"
-
         age = get_age_class_index(age_classes, age)
 
         label_age.append(age)
         label_gender.append(gender)
+
+    for age in label_age:
+        original_age[age] += 1
+
+    for gender in label_gender:
+        original_gender[gender] += 1
+
+    print(original_gender)
+    print(original_age)
 
     return np.array(training_images), label_age, label_gender
 
@@ -229,7 +235,7 @@ def train_age_network(input_data):
 
     print("Starting training")
 
-    history = model.fit(training_images, output_data, batch_size=32, epochs=10, callbacks=callbacks, validation_split=0.1)
+    history = model.fit(training_images, output_data, batch_size=48, epochs=20, callbacks=callbacks, validation_split=0.1)
 
     save_plot_from_history(history, acc_plot, loss_plot)
 
@@ -281,7 +287,7 @@ def train_gender_network(input_data):
 
     print("Starting training")
 
-    history = model.fit(training_images, output_data, batch_size=32, epochs=10, callbacks=callbacks,
+    history = model.fit(training_images, output_data, batch_size=32, epochs=20, callbacks=callbacks,
                         validation_split=0.1)
 
     save_plot_from_history(history, acc_plot, loss_plot)
@@ -297,6 +303,8 @@ def save_plot_from_history(history, acc_path, loss_path):
     plot.xlabel('Epoca')
     plot.legend(['Train', 'Test'], loc='upper left')
     plot.savefig(acc_path, bbox_inches='tight')
+
+    plot.clf()
 
     plot.plot(history.history['loss'])
     plot.plot(history.history['val_loss'])

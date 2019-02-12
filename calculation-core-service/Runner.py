@@ -1,5 +1,4 @@
 from messaging.Worker import CalculationWorker
-import core.keras.Training as tr
 
 
 def run_app():
@@ -12,5 +11,4 @@ def run_app():
             print(error)
 
 
-#tr.setup()
 run_app()

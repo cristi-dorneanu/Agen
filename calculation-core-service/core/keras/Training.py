@@ -120,9 +120,6 @@ def load_input_data(dataset_cropped_path, metadata_path):
     label_age = []
     label_gender = []
 
-    original_age = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    original_gender = [0, 0]
-
     for file in file_paths:
         filename = file.split('/')[-1]
 
@@ -144,15 +141,6 @@ def load_input_data(dataset_cropped_path, metadata_path):
 
         label_age.append(age)
         label_gender.append(gender)
-
-    for age in label_age:
-        original_age[age] += 1
-
-    for gender in label_gender:
-        original_gender[gender] += 1
-
-    print(original_gender)
-    print(original_age)
 
     return np.array(training_images), label_age, label_gender
 

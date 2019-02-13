@@ -72,7 +72,14 @@ def get_age_from_result(result_array):
     if result is None:
         return None
 
-    return age_classes[result]
+    age = None
+
+    if result == len(age_classes) - 1:
+        age = str(age_classes[result - 1]) + "-" + str(age_classes[result])
+    else:
+        age = str(age_classes[result]) + "-" + str(age_classes[result + 1])
+
+    return age
 
 
 def get_index_of_one(array):

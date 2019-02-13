@@ -15,7 +15,7 @@ public class CalculationResult implements Serializable {
 
     private Gender estimatedGender;
 
-    private Integer estimatedAge;
+    private String estimatedAge;
 
     private boolean isFace;
 
@@ -26,7 +26,7 @@ public class CalculationResult implements Serializable {
     public CalculationResult(@JsonProperty("calculationId") Long calculationId,
                              @JsonProperty("calculationStatus") CalculationStatus calculationStatus,
                              @JsonProperty("estimatedGender") Gender estimatedGender,
-                             @JsonProperty("estimatedAge") Integer estimatedAge,
+                             @JsonProperty("estimatedAge") String estimatedAge,
                              @JsonProperty("isFace") boolean isFace,
                              @JsonProperty("image") String image,
                              @JsonProperty("errorMessage") String errorMessage) {
@@ -63,11 +63,11 @@ public class CalculationResult implements Serializable {
         this.estimatedGender = estimatedGender;
     }
 
-    public Integer getEstimatedAge() {
+    public String getEstimatedAge() {
         return estimatedAge;
     }
 
-    public void setEstimatedAge(Integer estimatedAge) {
+    public void setEstimatedAge(String estimatedAge) {
         this.estimatedAge = estimatedAge;
     }
 

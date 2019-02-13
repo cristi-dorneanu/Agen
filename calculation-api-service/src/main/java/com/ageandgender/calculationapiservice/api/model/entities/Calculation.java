@@ -21,7 +21,7 @@ public class Calculation {
     private Gender estimatedGender;
 
     @Column(name = "estimated_age")
-    private Integer estimatedAge;
+    private String estimatedAge;
 
     @Column(name = "is_face")
     private boolean isFace;
@@ -63,11 +63,11 @@ public class Calculation {
         this.estimatedGender = estimatedGender;
     }
 
-    public Integer getEstimatedAge() {
+    public String getEstimatedAge() {
         return estimatedAge;
     }
 
-    public void setEstimatedAge(Integer estimatedAge) {
+    public void setEstimatedAge(String estimatedAge) {
         this.estimatedAge = estimatedAge;
     }
 

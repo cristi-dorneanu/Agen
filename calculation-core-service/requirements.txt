@@ -2,7 +2,7 @@ keras==2.2.4
 numpy==1.15.2
 opencv-python==3.4.3.18
 pika==0.12.0
-tensorflow==1.11.0
+tensorflow==1.15.2
 tqdm==4.27.0
 urllib3==1.23
 scipy==1.1.0

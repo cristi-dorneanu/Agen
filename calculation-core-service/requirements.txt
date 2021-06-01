@@ -4,7 +4,7 @@ opencv-python==3.4.3.18
 pika==0.12.0
 tensorflow==1.11.0
 tqdm==4.27.0
-urllib3==1.23
+urllib3==1.26.5
 scipy==1.1.0
 python-dateutil==2.7.3
 matplotlib==3.0.0
